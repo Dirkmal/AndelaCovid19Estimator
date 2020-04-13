@@ -13,7 +13,7 @@ function severeCases(infections) {
 }
 
 function availableBeds(totalBeds, numberOfCases) {
-  return numberOfCases - Math.trunc(totalBeds * 0.35);
+  return Math.trunc(totalBeds * 0.35) - numberOfCases;
 }
 
 function ICUCases(infections) {
