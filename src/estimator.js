@@ -1,5 +1,5 @@
 function calcCurrInfected(reportedCases, multFactor) {
-  return Math.trunc(reportedCases * multFactor);
+  return reportedCases * multFactor;
 }
 
 function estNewInfections(currInfected, days) {
@@ -67,25 +67,24 @@ const covid19ImpactEstimator = (data) => {
     data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
 
   return {
-    estimate: {
-      impact: {
-        currentlyInfected: currInfected,
-        infectionsByRequestedTime: newInfections,
-        severeCasesByRequestedTime: severeCases(newInfections),
-        hospitalBedsByRequestedTime: availableBeds(data.totalHospitalBeds, impactSevCases),
-        casesForICUByRequestedTime: ICUCases(newInfections),
-        casesForVentilatorByRequestedTime: ventilatorCases(newInfections),
-        dollarsInFlight: dollarsLost
-      },
-      severeImpact: {
-        currentlyInfected: sevCurrInfected,
-        infectionsByRequestedTime: sevNewInfections,
-        severeCasesByRequestedTime: severeCases(sevNewInfections),
-        hospitalBedsByRequestedTime: availableBeds(data.totalHospitalBeds, sevCases),
-        casesForICUByRequestedTime: ICUCases(sevNewInfections),
-        casesForVentilatorByRequestedTime: ventilatorCases(sevNewInfections),
-        dollarsInFlight: sevDollarsLost
-      }
+    data,
+    impact: {
+      currentlyInfected: currInfected,
+      infectionsByRequestedTime: newInfections,
+      severeCasesByRequestedTime: severeCases(newInfections),
+      hospitalBedsByRequestedTime: availableBeds(data.totalHospitalBeds, impactSevCases),
+      casesForICUByRequestedTime: ICUCases(newInfections),
+      casesForVentilatorByRequestedTime: ventilatorCases(newInfections),
+      dollarsInFlight: dollarsLost
+    },
+    severeImpact: {
+      currentlyInfected: sevCurrInfected,
+      infectionsByRequestedTime: sevNewInfections,
+      severeCasesByRequestedTime: severeCases(sevNewInfections),
+      hospitalBedsByRequestedTime: availableBeds(data.totalHospitalBeds, sevCases),
+      casesForICUByRequestedTime: ICUCases(sevNewInfections),
+      casesForVentilatorByRequestedTime: ventilatorCases(sevNewInfections),
+      dollarsInFlight: sevDollarsLost
     }
   };
 };
