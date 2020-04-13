@@ -1,3 +1,45 @@
+
+function currInfected (reported_cases, mult_factor) {
+  return Math.trunc(reported_cases * mult_factor);
+}
+
+function estNewInfections(curr_infected, days) {
+  let factor = Math.trunc(days/3);
+
+  return Math.trunc(curr_infected * Math.pow(2, factor));
+}
+
+function severeCases(infections) {
+  return Math.trunc(infections * 0.15);
+}
+
+function availableBeds(total_beds, number_of_cases) {
+  return number_of_cases - Math.trunc(total_beds * 0.35);
+}
+
+function ICUCases(infections) {
+  return Math.trunc(infections * 0.05)
+}
+
+function ventilatorCases(infections) {
+  return Math.trunc(infections * 0.02);
+}
+
+function economicLoss(infections, population, income, period) {
+  return Math.trunc(
+    (infections * population * income) / period
+  );
+}
+
+function periodInDays(period_type, period) {
+  if (period_type === "months") {
+    period = period * 30;
+  } else if (period_type === "years") {
+    period = period * 12 * 30;
+  }
+  return period;
+}
+
 const covid19ImpactEstimator = (data) => {
     const actual_days = periodInDays(data.periodType, data.timeToElapse);
 
@@ -20,13 +62,13 @@ const covid19ImpactEstimator = (data) => {
     // sev_vent_cases = ventilatorCases(sev_new_infections);
 
     dollars_lost = economicLoss(
-        new_infections, 
-        data.avgDailyIncomePopulation, 
+        new_infections,
+        data.avgDailyIncomePopulation,
         data.avgDailyIncomeInUSD,
         actual_days);
     sev_dollars_losts = economicLoss(
-        sev_new_infections, 
-        data.avgDailyIncomePopulation, 
+        sev_new_infections,
+        data.avgDailyIncomePopulation,
         data.avgDailyIncomeInUSD,
         actual_days);
 
@@ -56,44 +98,3 @@ const covid19ImpactEstimator = (data) => {
 };
 
 export default covid19ImpactEstimator;
-
-function currInfected (reported_cases, mult_factor) {
-    return Math.trunc(reported_cases * mult_factor);
-}
-
-function estNewInfections(curr_infected, days) {
-    let factor = Math.trunc(days/3);
-
-    return Math.trunc(curr_infected * Math.pow(2, factor));
-}
-
-function severeCases(infections) {
-    return Math.trunc(infections * 0.15);
-}
-
-function availableBeds(total_beds, number_of_cases) {
-    return number_of_cases - Math.trunc(total_beds * 0.35);
-}
-
-function ICUCases(infections) {
-    return Math.trunc(infections * 0.05)
-}
-
-function ventilatorCases(infections) {
-    return Math.trunc(infections * 0.02);
-}
-
-function economicLoss(infections, population, income, period) {
-    return Math.trunc(
-        (infections * population * income) / period
-    );
-}
-
-function periodInDays(period_type, period) {
-    if (period_type === "months") {
-        period = period * 30;
-    } else if (period_type === "years") {
-        period = period * 12 * 30;
-    }
-    return period;
-}
