@@ -32,9 +32,9 @@ function economicLoss(infections, population, income, period) {
 
 function periodInDays(durationType, period) {
   let actualDays = period;
-  if (durationType == 'weeks') {
+  if (durationType === 'weeks') {
     actualDays = period * 7;
-  } else if (durationType == 'months') {
+  } else if (durationType === 'months') {
     actualDays = period * 30;
   }
 
