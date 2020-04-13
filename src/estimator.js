@@ -61,8 +61,10 @@ const covid19ImpactEstimator = (data) => {
   // vent_cases = ventilatorCases(newInfections);
   // sevvent_cases = ventilatorCases(sevNewInfections);
 
-  const dollarsLost = economicLoss(newInfections, data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
-  const sevDollarsLost = economicLoss(sevNewInfections, data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
+  const dollarsLost = economicLoss(newInfections,
+    data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
+  const sevDollarsLost = economicLoss(sevNewInfections,
+    data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
 
   return {
     estimate: {
