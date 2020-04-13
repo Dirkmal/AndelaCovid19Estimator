@@ -53,15 +53,6 @@ const covid19ImpactEstimator = (data) => {
   const impactSevCases = severeCases(newInfections);
   const sevCases = severeCases(sevNewInfections);
 
-  // hospital_beds = availableBeds(data.totalHospitalBeds, impactSevCases);
-  // sevhospital_beds = availableBeds(daa.totalHospitalBeds, sevCases);
-
-  // icu_cases = ICUCases(newInfections);
-  // sevicu_cases = ICUCases(sevNewInfections);
-
-  // vent_cases = ventilatorCases(newInfections);
-  // sevvent_cases = ventilatorCases(sevNewInfections);
-
   const dollarsLost = economicLoss(newInfections,
     data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
   const sevDollarsLost = economicLoss(sevNewInfections,
