@@ -31,12 +31,13 @@ function economicLoss(infections, population, income, period) {
 }
 
 function periodInDays(durationType, period) {
+  let actualDays = period;
   if (durationType === 'months') {
-    return period * 30;
+    actualDays = period * 30;
   } else if (durationType === 'years') {
-    return period * 12 * 30;
+    actualDays = period * 12 * 30;
   }
-  return period;
+  return actualDays;
 }
 
 const covid19ImpactEstimator = (data) => {
@@ -60,16 +61,8 @@ const covid19ImpactEstimator = (data) => {
   // vent_cases = ventilatorCases(newInfections);
   // sevvent_cases = ventilatorCases(sevNewInfections);
 
-  dollarsLost = economicLoss(
-    newInfections,
-    data.avgDailyIncomePopulation,
-    data.avgDailyIncomeInUSD,
-    actualDays);
-  sevDollarsLost = economicLoss(
-    sevNewInfections,
-    data.avgDailyIncomePopulation,
-    data.avgDailyIncomeInUSD,
-    actualDays);
+  const dollarsLost = economicLoss(newInfections, data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
+  const sevDollarsLost = economicLoss(sevNewInfections, data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
 
   return {
     estimate: {
@@ -86,13 +79,13 @@ const covid19ImpactEstimator = (data) => {
         currentlyInfected: sevCurrInfected,
         infectionsByRequestedTime: sevNewInfections,
         severeCasesByRequestedTime: severeCases(sevNewInfections),
-        hospitalBedsByRequestedTime: availableBeds(daa.totalHospitalBeds, sevCases),
+        hospitalBedsByRequestedTime: availableBeds(data.totalHospitalBeds, sevCases),
         casesForICUByRequestedTime: ICUCases(sevNewInfections),
         casesForVentilatorByRequestedTime: ventilatorCases(sevNewInfections),
         dollarsInFlight: sevDollarsLost
       }
     }
-  }
+  };
 };
 
 export default covid19ImpactEstimator;
