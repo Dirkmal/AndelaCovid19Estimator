@@ -1,20 +1,19 @@
-
-function currInfected (reported_cases, mult_factor) {
-  return Math.trunc(reported_cases * mult_factor);
+function calcCurrInfected(reportedCases, multFactor) {
+  return Math.trunc(reportedCases * multFactor);
 }
 
-function estNewInfections(curr_infected, days) {
+function estNewInfections(currInfected, days) {
   let factor = Math.trunc(days/3);
 
-  return Math.trunc(curr_infected * Math.pow(2, factor));
+  return Math.trunc(currInfected * Math.pow(2, factor));
 }
 
 function severeCases(infections) {
   return Math.trunc(infections * 0.15);
 }
 
-function availableBeds(total_beds, number_of_cases) {
-  return number_of_cases - Math.trunc(total_beds * 0.35);
+function availableBeds(totalBeds, numberOfCases) {
+  return numberOfCases - Math.trunc(totalBeds * 0.35);
 }
 
 function ICUCases(infections) {
@@ -31,66 +30,66 @@ function economicLoss(infections, population, income, period) {
   );
 }
 
-function periodInDays(period_type, period) {
-  if (period_type === "months") {
+function periodInDays(durationType, period) {
+  if (durationType === "months") {
     period = period * 30;
-  } else if (period_type === "years") {
+  } else if (durationType === "years") {
     period = period * 12 * 30;
   }
   return period;
 }
 
 const covid19ImpactEstimator = (data) => {
-    const actual_days = periodInDays(data.periodType, data.timeToElapse);
+    const actualDays = periodInDays(data.periodType, data.timeToElapse);
 
-    curr_infected = currInfected(data.reportedCases, 10);
-    sev_curr_infected = currInfected(data.reportedCases, 50);
+    currInfected = calcCurrInfected(data.reportedCases, 10);
+    sevCurrInfected = calcCurrInfected(data.reportedCases, 50);
 
-    new_infections = estNewInfections(curr_infected, actual_days);
-    sev_new_infections = estNewInfections(sev_curr_infected, actual_days);
+    newInfections = estNewInfections(currInfected, actualDays);
+    sevNewInfections = estNewInfections(sevCurrInfected, actualDays);
 
-    // impact_sev_cases = severeCases(new_infections);
-    // sev_cases = severeCases(sev_new_infections);
+    impactSevCases = severeCases(newInfections);
+    sevCases = severeCases(sevNewInfections);
 
-    // hospital_beds = availableBeds(data.totalHospitalBeds, impact_sev_cases);
-    // sev_hospital_beds = availableBeds(daa.totalHospitalBeds, sev_cases);
+    // hospital_beds = availableBeds(data.totalHospitalBeds, impactSevCases);
+    // sevhospital_beds = availableBeds(daa.totalHospitalBeds, sevCases);
 
-    // icu_cases = ICUCases(new_infections);
-    // sev_icu_cases = ICUCases(sev_new_infections);
+    // icu_cases = ICUCases(newInfections);
+    // sevicu_cases = ICUCases(sevNewInfections);
 
-    // vent_cases = ventilatorCases(new_infections);
-    // sev_vent_cases = ventilatorCases(sev_new_infections);
+    // vent_cases = ventilatorCases(newInfections);
+    // sevvent_cases = ventilatorCases(sevNewInfections);
 
-    dollars_lost = economicLoss(
-        new_infections,
+    dollarsLost = economicLoss(
+        newInfections,
         data.avgDailyIncomePopulation,
         data.avgDailyIncomeInUSD,
-        actual_days);
-    sev_dollars_losts = economicLoss(
-        sev_new_infections,
+        actualDays);
+    sevDollarsLost = economicLoss(
+        sevNewInfections,
         data.avgDailyIncomePopulation,
         data.avgDailyIncomeInUSD,
-        actual_days);
+        actualDays);
 
     return {
         estimate: {
             impact: {
-                currentlyInfected: curr_infected,
-                infectionsByRequestedTime: new_infections,
-                severeCasesByRequestedTime: severeCases(new_infections),
-                hospitalBedsByRequestedTime: availableBeds(data.totalHospitalBeds, impact_sev_cases),
-                casesForICUByRequestedTime: ICUCases(new_infections),
-                casesForVentilatorByRequestedTime: ventilatorCases(new_infections),
-                dollarsInFlight: dollars_lost
+                currentlyInfected: currInfected,
+                infectionsByRequestedTime: newInfections,
+                severeCasesByRequestedTime: severeCases(newInfections),
+                hospitalBedsByRequestedTime: availableBeds(data.totalHospitalBeds, impact_sevcases),
+                casesForICUByRequestedTime: ICUCases(newInfections),
+                casesForVentilatorByRequestedTime: ventilatorCases(newInfections),
+                dollarsInFlight: dollarsLost
             },
             severeImpact: {
-                currentlyInfected: sev_curr_infected,
-                infectionsByRequestedTime: sev_new_infections,
-                severeCasesByRequestedTime: severeCases(sev_new_infections),
-                hospitalBedsByRequestedTime: availableBeds(daa.totalHospitalBeds, sev_cases),
-                casesForICUByRequestedTime: ICUCases(sev_new_infections),
-                casesForVentilatorByRequestedTime: ventilatorCases(sev_new_infections),
-                dollarsInFlight: sev_dollars_losts
+                currentlyInfected: sevCurrInfected,
+                infectionsByRequestedTime: sevNewInfections,
+                severeCasesByRequestedTime: severeCases(sevNewInfections),
+                hospitalBedsByRequestedTime: availableBeds(daa.totalHospitalBeds, sevCases),
+                casesForICUByRequestedTime: ICUCases(sevNewInfections),
+                casesForVentilatorByRequestedTime: ventilatorCases(sevNewInfections),
+                dollarsInFlight: sevDollarsLost
             }
         }
     }
