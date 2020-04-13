@@ -44,15 +44,18 @@ function periodInDays(durationType, period) {
 const covid19ImpactEstimator = (data) => {
   const actualDays = periodInDays(data.periodType, data.timeToElapse);
 
+  // challenge 1
   const currInfected = calcCurrInfected(data.reportedCases, 10);
   const sevCurrInfected = calcCurrInfected(data.reportedCases, 50);
 
   const newInfections = estNewInfections(currInfected, actualDays);
   const sevNewInfections = estNewInfections(sevCurrInfected, actualDays);
 
+  //challenge 2
   const impactSevCases = severeCases(newInfections);
   const sevCases = severeCases(sevNewInfections);
 
+  //challenge 2.5
   const dollarsLost = economicLoss(newInfections,
     data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
   const sevDollarsLost = economicLoss(sevNewInfections,
