@@ -24,9 +24,17 @@ function ventilatorCases(infections) {
   return Math.trunc(infections * 0.02);
 }
 
-function economicLoss(infections, population, income, period) {
+function economicLoss(infections, population, income, period, durationType) {
+  let time = period;
+
+  if (durationType === 'weeks') {
+    time = Math.trunc(period * 7);
+  } else if (durationType === 'months') {
+    time = Math.trunc(period * 30);
+  }
+
   return Math.trunc(
-    (infections * population * income) / period
+    (infections * population * income) / time
   );
 }
 
