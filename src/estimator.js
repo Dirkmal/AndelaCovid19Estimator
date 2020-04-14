@@ -51,11 +51,11 @@ const covid19ImpactEstimator = (data) => {
   const newInfections = estNewInfections(currInfected, actualDays);
   const sevNewInfections = estNewInfections(sevCurrInfected, actualDays);
 
-  //challenge 2
+  //c hallenge 2
   const impactSevCases = severeCases(newInfections);
   const sevCases = severeCases(sevNewInfections);
 
-  //challenge 2.5
+  // challenge 2.5
   const dollarsLost = economicLoss(newInfections,
     data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
   const sevDollarsLost = economicLoss(sevNewInfections,
