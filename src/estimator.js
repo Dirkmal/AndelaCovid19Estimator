@@ -51,7 +51,7 @@ const covid19ImpactEstimator = (data) => {
   const newInfections = estNewInfections(currInfected, actualDays);
   const sevNewInfections = estNewInfections(sevCurrInfected, actualDays);
 
-  //c hallenge 2
+  // challenge 2
   const impactSevCases = severeCases(newInfections);
   const sevCases = severeCases(sevNewInfections);
 
