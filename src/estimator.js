@@ -57,9 +57,9 @@ const covid19ImpactEstimator = (data) => {
 
   // challenge 2.5
   const dollarsLost = economicLoss(newInfections,
-    data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
+    data.region.avgDailyIncomePopulation, data.region.avgDailyIncomeInUSD, actualDays);
   const sevDollarsLost = economicLoss(sevNewInfections,
-    data.avgDailyIncomePopulation, data.avgDailyIncomeInUSD, actualDays);
+    data.region.avgDailyIncomePopulation, data.region.avgDailyIncomeInUSD, actualDays);
 
   return {
     data,
