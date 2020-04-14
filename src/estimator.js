@@ -24,17 +24,9 @@ function ventilatorCases(infections) {
   return Math.trunc(infections * 0.02);
 }
 
-function economicLoss(infections, population, income, period, durationType) {
-  let time = period;
-
-  if (durationType === 'weeks') {
-    time = Math.trunc(period * 7);
-  } else if (durationType === 'months') {
-    time = Math.trunc(period * 30);
-  }
-
+function economicLoss(infections, population, income, period) {
   return Math.trunc(
-    (infections * population * income) / time
+    (infections * population * income) / period
   );
 }
 
@@ -77,7 +69,7 @@ const covid19ImpactEstimator = (data) => {
       severeCasesByRequestedTime: severeCases(newInfections),
       hospitalBedsByRequestedTime: availableBeds(data.totalHospitalBeds, impactSevCases),
       casesForICUByRequestedTime: ICUCases(newInfections),
-      casesForVentilatorByRequestedTime: ventilatorCases(newInfections),
+      casesForVentilatorsByRequestedTime: ventilatorCases(newInfections),
       dollarsInFlight: dollarsLost
     },
     severeImpact: {
@@ -86,7 +78,7 @@ const covid19ImpactEstimator = (data) => {
       severeCasesByRequestedTime: severeCases(sevNewInfections),
       hospitalBedsByRequestedTime: availableBeds(data.totalHospitalBeds, sevCases),
       casesForICUByRequestedTime: ICUCases(sevNewInfections),
-      casesForVentilatorByRequestedTime: ventilatorCases(sevNewInfections),
+      casesForVentilatorsByRequestedTime: ventilatorCases(sevNewInfections),
       dollarsInFlight: sevDollarsLost
     }
   };
